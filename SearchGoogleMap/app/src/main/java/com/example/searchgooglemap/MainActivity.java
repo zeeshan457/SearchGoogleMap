@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
      *
      */
 
-    private EditText username, password;
-    private Button loginButton, clearButton;
+    private EditText username, password, repassword;
+    private Button clearButton, registerButton, navigateButton;
     private Database database;
 
 
@@ -36,41 +35,62 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.register);
 
         // finding ID and assigning to local variables for access.
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
-        loginButton = findViewById(R.id.registerButton);
+        repassword = findViewById(R.id.repeatpassword);
+        navigateButton = findViewById(R.id.redirectButton);
         clearButton = findViewById(R.id.clearButton);
+        registerButton = findViewById(R.id.registerButton);
         database = new Database(this);
 
-        // method calls
         actionEvents();
 
     }
 
+    /**
+     *
+     * Button action events for 3 buttons, register, navigate, and clear
+     *
+     *
+     */
     public void actionEvents() {
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        registerButton.setOnClickListener(v -> {
+            String user = username.getText().toString();
+            String pass = password.getText().toString();
+            String repass = repassword.getText().toString();
 
-                String user = username.getText().toString();
-                String pass = password.getText().toString();
-
-                if (TextUtils.isEmpty(user) || TextUtils.isEmpty(pass)) {
-                    Toast.makeText(MainActivity.this, "One or more field are empty", Toast.LENGTH_SHORT).show();
-                } else {
-                    Boolean login = database.Login(user, pass);
-                    if (login == true) {
-                        Toast.makeText(MainActivity.this, "Welcome " + user, Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), MapsActivty.class);
+            if (TextUtils.isEmpty(user) || TextUtils.isEmpty(pass) || TextUtils.isEmpty(repass)) {
+                Toast.makeText(MainActivity.this, "One or more field are empty", Toast.LENGTH_SHORT).show();
+            } else if (!pass.equals(repass)) {
+                Toast.makeText(MainActivity.this, "Password must match", Toast.LENGTH_SHORT).show();
+            } else {
+                Boolean checkUserExists = database.checkUsernameExists(user);
+                if (!checkUserExists) {
+                    Boolean register = database.Register(user, pass, repass);
+                    if (register) {
+                        Toast.makeText(MainActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), LoginActivty.class);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(MainActivity.this, "Welcome " + user, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    Toast.makeText(MainActivity.this, "Username already exists", Toast.LENGTH_SHORT).show();
+
                 }
             }
+        });
+        navigateButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), LoginActivty.class);
+            startActivity(intent);
+        });
+        clearButton.setOnClickListener(v -> {
+            username.setText("");
+            password.setText("");
+            repassword.setText("");
         });
     }
 }

@@ -64,14 +64,14 @@ public class Database extends SQLiteOpenHelper {
      */
     public Boolean Login(String username, String password) {
         SQLiteDatabase Database = this.getWritableDatabase();
-        Cursor SQL = Database.rawQuery("SELECT * " +
+        Cursor rows = Database.rawQuery("SELECT * " +
                 "FROM users " +
                 "WHERE username = ? AND password = ?",
                 // checking fields here
                 new String[]{username,password});
 
         // checking credentials
-        if (SQL.getCount() > 0) {
+        if (rows.getCount() > 0) {
             return true;
         } else {
             return false;
@@ -84,7 +84,7 @@ public class Database extends SQLiteOpenHelper {
      * Registering a new user in the system
      *
      * @param username to get username input
-     * @param password to get password
+     * @param password to get password input
      * @param password2 to get repeat password
      * @return true or false
      */
@@ -93,13 +93,31 @@ public class Database extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("username", username);
         values.put("password", username);
-        Long res = Database.insert("users", null, values);
+        Long rows = Database.insert("users", null, values);
 
         // checking registration
-        if (res == 1) {
+        if (rows == 1) {
             return false;
         } else {
             return true;
+        }
+    }
+
+    /**
+     *
+     * Checks if a username exists in the database
+     *
+     * @param username to get username input
+     * @return true or false
+     */
+    public Boolean checkUsernameExists(String username) {
+        SQLiteDatabase Database = this.getWritableDatabase();
+        Cursor rows = Database.rawQuery("SELECT * FROM users WHERE username = ?",
+                new String[]{username});
+        if (rows.getCount() > 1) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
