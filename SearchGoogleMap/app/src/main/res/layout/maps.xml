@@ -6,58 +6,41 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="21dp"
-        android:backgroundTint="#2196F3"
-        android:text="Logout"
-        app:layout_constraintBottom_toTopOf="@+id/searchButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/location"
-        android:layout_width="278dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="84dp"
-        android:layout_marginBottom="30dp"
-        android:ems="10"
-        android:hint="Search location"
-        android:inputType="textPersonName"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/googleMap"
-        app:layout_constraintEnd_toStartOf="@+id/searchButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/searchButton"
-        android:layout_width="62dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="30dp"
-        android:src="@drawable/searchicon"
-        app:layout_constraintBottom_toTopOf="@+id/googleMap"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/location"
-        app:layout_constraintTop_toBottomOf="@+id/logoutButton"
-        tools:ignore="MissingConstraints" />
-
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/googleMap"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/location" />
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        android:backgroundTint="#00BCD4"
+        android:text="Logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/searchView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:queryHint="Search location"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/googleMap"
+        app:layout_constraintEnd_toStartOf="@+id/logoutButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

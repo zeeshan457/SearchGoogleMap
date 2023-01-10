@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SearchGoogleMap</string>
+    <string name="key" translatable="false">AIzaSyCXjkxMVhaSd81MCLH1uOaiBfz_ed4Fr50</string>
 </resources>
